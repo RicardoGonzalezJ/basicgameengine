@@ -3,8 +3,11 @@
 #define __Game__
 
 #include <SDL.h>
-#include <SDL_image.h>
+// #include <SDL_image.h>
+#include <vector>
 #include "TextureManager.h"
+#include "GameObject.h"
+// #include "Player.h"
 
 class Game
 {
@@ -22,6 +25,7 @@ public:
 
 	// a function to access the private m_bRunning variable
 	bool running() { return m_bRunning; }
+	
 
 private:
 
@@ -36,5 +40,17 @@ private:
 	SDL_Rect m_destinationRectangle; // another rectangle*/
 
 	bool m_bRunning;
+	// using Player.h
+	/*GameObject m_go;
+	Player m_player;*/
+
+	// declaring an array of GameObjects for manage GaObs no matter what type is belong to
+	GameObject* m_go;
+	GameObject* m_player;
+	GameObject* m_enemy;
+	GameObject* m_enemy2;
+	std::vector<GameObject*> m_gameObjects;
+	
+	
 };
 #endif /* defined(__Game__) */

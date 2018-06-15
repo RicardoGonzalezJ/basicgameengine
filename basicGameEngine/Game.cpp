@@ -1,5 +1,8 @@
 #include "Game.h"
+#include "Player.h"
+#include "Enemy.h"
 #include <iostream>
+
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
 	
@@ -58,7 +61,33 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 	{
 		return false;
 	}
+
+	if (!TheTextureManager::getInstance()->load("assets/arabic_guy_example.png", "enemy", m_pRenderer))
+	{
+		return false;
+	}
+
 	
+	// using gameObject class
+	// m_go.load(100, 100, 128, 82, "animate");
+	// m_player.load(300, 100, 128, 55, "helicopter");
+
+	// using GameObject array
+	m_go = new GameObject();
+	m_player = new Player();
+	m_enemy = new Enemy();
+	m_enemy2 = new Enemy();
+
+	m_go->load(100, 100, 128, 82, "animate");
+	m_player->load(300, 100, 128, 55, "helicopter");
+	m_enemy->load(0, 0, 80, 137, "enemy");
+	m_enemy2->load(0, 0, 128, 82, "animate");
+
+	m_gameObjects.push_back(m_go);
+	m_gameObjects.push_back(m_player);
+	m_gameObjects.push_back(m_enemy);
+	m_gameObjects.push_back(m_enemy2);
+
 
     // using with SDL_loadBMP
 	/*SDL_Surface* pTempSurface = SDL_LoadBMP("assets/animate.bmp");
@@ -114,13 +143,23 @@ void Game::render() {
    // m_textureManager.drawFrame("animate", 100, 100, 128, 82, 1, m_currentFrame, m_pRenderer);
 
 	// Using the TextureManager as a Singleton class
-	TheTextureManager::getInstance()->draw("animate", 0, 0, 128, 82, m_pRenderer);
+	/*TheTextureManager::getInstance()->draw("animate", 0, 0, 128, 82, m_pRenderer);
 
 	TheTextureManager::getInstance()->draw("helicopter", 100, 00, 128, 55, m_pRenderer);
 
 
 	TheTextureManager::getInstance()->drawFrame("animate", 100, 100, 128, 82, 1, m_currentFrame, m_pRenderer);
-	TheTextureManager::getInstance()->drawFrame("helicopter", 200, 100, 128, 55, 1, m_currentFrame, m_pRenderer);
+	TheTextureManager::getInstance()->drawFrame("helicopter", 200, 100, 128, 55, 1, m_currentFrame, m_pRenderer);*/
+
+	// using gameObject Class
+	// m_go.draw(m_pRenderer);
+	// m_player.draw(m_pRenderer);
+
+	// using gameObject array
+	for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
+	{
+		m_gameObjects[i]->draw(m_pRenderer);
+	}
 
 	//for flipping the image 
 	// SDL_RenderCopyEx(m_pRenderer, m_pTexture, &m_sourceRectangle, &m_destinationRectangle, 0, 0, SDL_FLIP_VERTICAL); // pass the horizontal flipping
@@ -154,5 +193,13 @@ void Game::update() {
 	//  m_sourceRectangle.x = 128 * int(((SDL_GetTicks() / 100) % 6));
 
 	 // using the TextureManager class
-	 m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
+	 // m_currentFrame = int(((SDL_GetTicks() / 100) % 6));
+	// m_go.update();
+	// m_player.update();
+
+	// using gameObject array
+	for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
+	{
+		m_gameObjects[i]->update();
+	}
 };
