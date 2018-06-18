@@ -64,20 +64,32 @@ int main(int argc, char* argv[]) {
 	AllocConsole();
 	freopen("CON", "w", stdout);
 
-	g_game = new Game();
 
-	g_game->init("Chapter 1", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
+	// commented due Game is a singleton now
+	// g_game = new Game();
 
-	while (g_game->running())
+	if (TheGame::getInstance()->init("Chapter 1", 100, 100, 640, 480, SDL_WINDOW_SHOWN))
 	{
-		g_game->handleEvents();
-		g_game->update();
-		g_game->render();
+		std::cout << "game init success\n";
+		while (TheGame::getInstance()->running())
+		{
+			TheGame::getInstance()->handleEvents();
+			TheGame::getInstance()->update();
+			TheGame::getInstance()->render();
 
-		SDL_Delay(50); //add the Delay
+			SDL_Delay(50); //add the Delay
+		}
 	}
+	else
+	{
+		std::cout << "game init failure - " << SDL_GetError() << "\n";
+		return -1;
+	}
+	
+	// g_game->init("Chapter 1", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
 
-	g_game->clean();
+	std::cout << "game closing...\n";
+	TheGame::getInstance()->clean();
 
 	return 0;
 }

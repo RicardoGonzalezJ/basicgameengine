@@ -1,13 +1,20 @@
 #pragma once
-#include "GameObject.h"
+// #include "GameObject.h"
+// now enemy can inherint from SDLGameObject
+#include "SDLGameObject.h"
 
-class Enemy : public GameObject {
+class Enemy : public SDLGameObject {
 
 public:
 
-	void load(int x, int y, int width, int height, std::string textureID);
-	void draw(SDL_Renderer* pRenderer);
-	void update();
-	void clean();
+	// void load(int x, int y, int width, int height, std::string textureID);
+	// void draw(SDL_Renderer* pRenderer);
+
+	Enemy(const LoaderParams* pParams);
+	~Enemy();
+
+	virtual void draw();
+	virtual void update();
+	virtual void clean();
 
 };

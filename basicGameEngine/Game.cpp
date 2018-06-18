@@ -4,6 +4,8 @@
 #include <iostream>
 
 
+Game* Game::s_pInstance = NULL;
+
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
 	
 	std::cout << "bool init start\n";
@@ -73,20 +75,27 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 	// m_player.load(300, 100, 128, 55, "helicopter");
 
 	// using GameObject array
-	m_go = new GameObject();
+	/*m_go = new GameObject();
 	m_player = new Player();
 	m_enemy = new Enemy();
 	m_enemy2 = new Enemy();
 
 	m_go->load(100, 100, 128, 82, "animate");
 	m_player->load(300, 100, 128, 55, "helicopter");
-	m_enemy->load(0, 0, 80, 137, "enemy");
+	m_enemy->load(0, 0, 115, 137, "enemy");
 	m_enemy2->load(0, 0, 128, 82, "animate");
 
 	m_gameObjects.push_back(m_go);
 	m_gameObjects.push_back(m_player);
 	m_gameObjects.push_back(m_enemy);
-	m_gameObjects.push_back(m_enemy2);
+	m_gameObjects.push_back(m_enemy2);*/
+
+	// using SDLGameObject
+	m_gameObjects.push_back(new Player(new LoaderParams(500, 100, 128, 82, "animate")));
+
+	m_gameObjects.push_back(new Enemy(new LoaderParams(300, 100, 128, 55, "helicopter")));
+
+	m_gameObjects.push_back(new Player(new LoaderParams(500, 0, 128, 55, "helicopter")));
 
 
     // using with SDL_loadBMP
@@ -158,7 +167,11 @@ void Game::render() {
 	// using gameObject array
 	for (std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size(); i++)
 	{
-		m_gameObjects[i]->draw(m_pRenderer);
+		// using gameobject array
+		// m_gameObjects[i]->draw(m_pRenderer);
+
+		// using SDLGameObject
+		m_gameObjects[i]->draw();
 	}
 
 	//for flipping the image 

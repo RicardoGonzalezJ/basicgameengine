@@ -1,13 +1,18 @@
 #pragma once
 
-#include "GameObject.h"
+// #include "GameObject.h"
+// now player can inherint from SDLGameObject
+#include "SDLGameObject.h"
 
-class Player : public GameObject {
+class Player : public SDLGameObject {
 
 public:
 
-	void load(int x, int y, int width, int height, std::string textureID);
-	void draw(SDL_Renderer* pRenderer);
-	void update();
-	void clean();
+	// void load(int x, int y, int width, int height, std::string textureID);
+	// void draw(SDL_Renderer* pRenderer);
+	Player(const LoaderParams* pParams);
+
+	virtual void draw();
+	virtual void update();
+	virtual void clean();
 };

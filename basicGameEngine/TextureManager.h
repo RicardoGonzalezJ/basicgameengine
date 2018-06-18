@@ -17,7 +17,7 @@ public:
 	//drawframe take two additional param current frame we want to draw and which row it is on in the sprite sheet
 	void drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-	// this method is to ensure that TM class cannot be create to another objects. 
+	// this method is to ensure that TM class cannot be create to another objects. Singleton
 	static TextureManager* getInstance() {
 
 		if (s_pInstance == NULL)

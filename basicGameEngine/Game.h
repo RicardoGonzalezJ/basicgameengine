@@ -12,7 +12,7 @@
 class Game
 {
 public:
-	Game() {};
+	
 	~Game() {};
 
 	// Simply set the running variable to true
@@ -23,11 +23,28 @@ public:
 	void handleEvents();
 	void clean();
 
+	// method that return our render. the draw function does not have that habiity anymore-C3. using abstract classes
+	SDL_Renderer* getRender() const { return m_pRenderer; }
+
 	// a function to access the private m_bRunning variable
 	bool running() { return m_bRunning; }
+
+	// this method is to ensure that Game class cannot be create to another objects. Singleton
+	static Game* getInstance() {
+
+		if (s_pInstance == NULL)
+		{
+			s_pInstance = new Game();
+			return s_pInstance;
+		}
+
+		return s_pInstance;
+	}
 	
 
 private:
+
+	Game() {};
 
 	SDL_Window* m_pWindow = NULL;
 	SDL_Renderer* m_pRenderer = NULL;
@@ -50,7 +67,12 @@ private:
 	GameObject* m_enemy;
 	GameObject* m_enemy2;
 	std::vector<GameObject*> m_gameObjects;
+
+	//a variable to hold our once instance of the class TextureManager
+	static Game* s_pInstance;
 	
 	
 };
+
+typedef Game TheGame;
 #endif /* defined(__Game__) */

@@ -1,4 +1,4 @@
-#include "GameObject.h"
+/*#include "GameObject.h"
 #include "TextureManager.h"
 
 // implementing GameObject class
@@ -26,4 +26,4 @@ void GameObject::update() {
 
 void GameObject::clean() {
 
-}
+}*/
