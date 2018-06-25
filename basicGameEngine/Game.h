@@ -7,6 +7,7 @@
 #include <vector>
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "GameStateMachine.h"
 // #include "Player.h"
 
 class Game
@@ -28,6 +29,7 @@ public:
 
 	// a function to access the private m_bRunning variable
 	bool running() { return m_bRunning; }
+	void quit() { m_bRunning = false;  }
 
 	// this method is to ensure that Game class cannot be create to another objects. Singleton
 	static Game* getInstance() {
@@ -70,6 +72,9 @@ private:
 
 	//a variable to hold our once instance of the class TextureManager
 	static Game* s_pInstance;
+
+	// gameStateMachine
+	GameStateMachine* m_pGameStateMachine;
 	
 	
 };

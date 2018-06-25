@@ -1,6 +1,9 @@
 #include "Game.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "InputHandler.h"
+#include "MenuState.h"
+#include "PlayState.h"
 #include <iostream>
 
 
@@ -46,12 +49,18 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 		return false;
 	}
 
+	m_pGameStateMachine = new GameStateMachine();
+	m_pGameStateMachine->changeState(new MenuState());
+
 	std::cout << "init success\n";
 
 	m_bRunning = true; // everything inited successfully, start the main loop
 
+
 	// loading image using the texture manager
 	// m_textureManager.load("assets/animate-alpha.png", "animate", m_pRenderer);
+
+	TheInputHandler::Instance()->initializeJoysticks();
 
 	// loading image using the texture manager as singleton
 	if (!TheTextureManager::getInstance()->load("assets/animate-alpha.png", "animate", m_pRenderer))
@@ -184,11 +193,12 @@ void Game::clean() {
 	std::cout << "cleaning game\n";
 	SDL_DestroyWindow(m_pWindow);
 	SDL_DestroyRenderer(m_pRenderer);
+	TheInputHandler::Instance()->clean();
 	SDL_Quit();
 }
 
 void Game::handleEvents() {
-	SDL_Event event;
+	/*SDL_Event event;
 	if (SDL_PollEvent(&event))
 	{
 		switch (event.type) {
@@ -199,6 +209,13 @@ void Game::handleEvents() {
 		default:
 			break;
 		}
+	}*/
+
+	TheInputHandler::Instance()->update();
+
+	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN))
+	{
+		m_pGameStateMachine->changeState(new PlayState());
 	}
 }
 
@@ -215,4 +232,5 @@ void Game::update() {
 	{
 		m_gameObjects[i]->update();
 	}
+
 };
