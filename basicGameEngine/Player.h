@@ -3,6 +3,7 @@
 // #include "GameObject.h"
 // now player can inherint from SDLGameObject
 #include "SDLGameObject.h"
+#include "InputHandler.h"
 
 class Player : public SDLGameObject {
 
@@ -15,4 +16,8 @@ public:
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
+
+private:
+
+	void handleInput();
 };

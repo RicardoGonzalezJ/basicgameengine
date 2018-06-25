@@ -44,6 +44,10 @@ SDL_RenderPresent(g_pRenderer);
 // our game Object
 Game* g_game = NULL;
 
+// fixed frames per second
+const int FPS = 60;
+const int DELAY_TIME = 1000.0f / FPS;
+
 int main(int argc, char* argv[]) {
 	/*if (init("Chapter 1: Setting up SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN))
 	{
@@ -64,6 +68,8 @@ int main(int argc, char* argv[]) {
 	AllocConsole();
 	freopen("CON", "w", stdout);
 
+	// var to calculate Game Delay
+	Uint32 frameStart, frameTime;
 
 	// commented due Game is a singleton now
 	// g_game = new Game();
@@ -73,11 +79,20 @@ int main(int argc, char* argv[]) {
 		std::cout << "game init success\n";
 		while (TheGame::getInstance()->running())
 		{
+			frameStart = SDL_GetTicks();
+
 			TheGame::getInstance()->handleEvents();
 			TheGame::getInstance()->update();
 			TheGame::getInstance()->render();
 
-			SDL_Delay(50); //add the Delay
+			frameTime = SDL_GetTicks() - frameStart;
+
+			if (frameTime < DELAY_TIME)
+			{
+				SDL_Delay((int)(DELAY_TIME - frameTime)); //add the Delay
+			}
+
+			// SDL_Delay(50); //add the Delay
 		}
 	}
 	else
